@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Panduan WordPress Offline dengan XAMPP</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.7;
+      margin: 20px;
+      background: #f8f9fa;
+      color: #222;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    h2 {
+      margin-top: 30px;
+      color: #34495e;
+    }
+    .step {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-left: 5px solid #3498db;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    code {
+      background: #eee;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 90%;
+    }
+    .note {
+      background: #ffeeba;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #f0ad4e;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Panduan Belajar WordPress Offline dengan XAMPP</h1>
+
+  <div class="step">
+    <h2>1. Install XAMPP</h2>
+    <p>Download XAMPP di: <a href="https://www.apachefriends.org/download.html" target="_blank">apachefriends.org</a></p>
+    <p>Setelah install, buka <b>XAMPP Control Panel</b> lalu klik <b>Start</b> pada:</p>
+    <ul>
+      <li>Apache</li>
+      <li>MySQL</li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <h2>2. Download WordPress</h2>
+    <p>Download di: <a href="https://wordpress.org/download/" target="_blank">wordpress.org/download</a></p>
+    <p>Extract file zip, ganti nama folder menjadi <code>wordpress</code> dan pindahkan ke folder:</p>
+    <p><code>C:\xampp\htdocs\</code></p>
+  </div>
+
+  <div class="step">
+    <h2>3. Buat Database</h2>
+    <p>Buka browser dan ketik: <code>http://localhost/phpmyadmin</code></p>
+    <p>Klik <b>Database → Buat Database Baru</b>, beri nama misalnya <code>belajar_wp</code>.</p>
+  </div>
+
+  <div class="step">
+    <h2>4. Instalasi WordPress</h2>
+    <p>Buka browser dan ketik: <code>http://localhost/wordpress</code></p>
+    <p>Isi data konfigurasi database:</p>
+    <ul>
+      <li><b>Database Name:</b> belajar_wp</li>
+      <li><b>Username:</b> root</li>
+      <li><b>Password:</b> (kosongkan)</li>
+      <li><b>Host:</b> localhost</li>
+    </ul>
+    <p>Lanjutkan hingga instalasi selesai, lalu isi nama situs, username, dan password admin.</p>
+  </div>
+
+  <div class="step">
+    <h2>5. Mulai Belajar</h2>
+    <p>Login ke dashboard di: <code>http://localhost/wordpress/wp-admin</code></p>
+    <p>Dari sini, Anda bisa:</p>
+    <ul>
+      <li>Buat postingan & halaman</li>
+      <li>Mengganti tema (Appearance → Themes)</li>
+      <li>Install plugin (misalnya Elementor)</li>
+    </ul>
+  </div>
+
+  <div class="note">
+    <b>Tips:</b> Jika ada error "port in use", pastikan tidak ada aplikasi lain yang menggunakan port 80/443 (misalnya Skype).
+  </div>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kendali Pemeriksaan</title>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #111; transition: all 0.3s; }
+    header { background: #2563eb; color: white; padding: 20px; text-align: center; position: relative; }
+    nav { background: #1e3a8a; padding: 10px; text-align: center; position: sticky; top: 0; z-index: 1000; }
+    nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
+    nav a:hover { text-decoration: underline; }
+    .container { max-width: 900px; margin: 20px auto; background: white; padding: 20px; border-radius: 10px; transition: background 0.3s; }
+    h2 { color: #2563eb; }
+    button { padding: 10px 20px; margin: 10px 0; background: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #1d4ed8; }
+    footer { background: #111827; color: #d1d5db; text-align: center; padding: 15px; margin-top: 30px; transition: all 0.3s; }
+    
+    /* Tombol Back to Top */
+    #backToTop {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1001;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      transition: background 0.3s;
+    }
+    #backToTop:hover { background: #1d4ed8; }
+
+    /* Tombol Dark Mode */
+    #darkModeToggle {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: white;
+      color: #2563eb;
+      border: none;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+    #darkModeToggle:hover { background: #f4f4f4; }
+
+    /* DARK MODE */
+    body.dark { background: #111; color: #eee; }
+    body.dark .container { background: #1f2937; color: #eee; }
+    body.dark header { background: #0f172a; }
+    body.dark nav { background: #0a0f1a; }
+    body.dark footer { background: #0a0f1a; color: #bbb; }
+    body.dark h2 { color: #38bdf8; }
+    body.dark button { background: #38bdf8; }
+    body.dark button:hover { background: #0ea5e9; }
+    body.dark #backToTop { background: #38bdf8; }
+    body.dark #backToTop:hover { background: #0ea5e9; }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <h1>Dokumen Kendali Pemeriksaan</h1>
+    <p>Susunan Dokumen 4 Rangkap</p>
+    <button id="darkModeToggle">🌙 Dark</button>
+  </header>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#dpm">Untuk DPM</a>
+    <a href="#camat-a">Untuk Camat (A)</a>
+    <a href="#camat-b">Untuk Camat (B)</a>
+  </nav>
+
+  <!-- KONTEN -->
+  <div class="container">
+    <button onclick="window.print()">🖨️ Cetak Dokumen</button>
+
+    <section id="dpm">
+      <h2>Susunan Map Ke Pertama untuk DPM</h2>
+      <ol>
+        <li>Koper 1 Rangkap</li>
+        <li>Rekomendasi DPM 3 rangkap</li>
+        <li>Permohonan Rekomendasi 1 Rangkap</li>
+        <li>Permohonan Pencairan 1 Rangkap</li>
+        <li>RPD 1 Rangkap</li>
+        <li>RPD perorangan 1 rangkap</li>
+        <li>SPTJM 2 rangkap (1 pakai materai, 1 tanpa)</li>
+        <li>Koper 1 rangkap</li>
+        <li>Surat Permohonan pencairan 2 Rangkap</li>
+        <li>Kwitansi tiga warna (putih pakai materai)</li>
+        <li>RPD 2 Rangkap</li>
+        <li>RPD perorangan 2 Rangkap</li>
+        <li>Buku rekening nagari 2 Rangkap</li>
+      </ol>
+    </section>
+
+    <section id="camat-a">
+      <h2>Susunan Map Ke Pertama untuk Kantor Camat</h2>
+      <ol>
+        <li>Koper 1 Rangkap</li>
+        <li>Permohonan Rekomendasi 1 Rangkap</li>
+        <li>Surat permohonan pencairan 1 Rangkap</li>
+        <li>RPD 1 Rangkap</li>
+        <li>RPD perorangan 1 Rangkap</li>
+        <li>SPTJM 1 rangkap tanpa materai</li>
+      </ol>
+    </section>
+
+    <section id="camat-b">
+      <h2>Susunan Map Ke Pertama untuk Kantor Camat (Versi B)</h2>
+      <ol>
+        <li>Koper 1 Rangkap</li>
+        <li>Rekomendasi DPM 1 Rangkap</li>
+        <li>Permohonan Rekomendasi 1 Rangkap</li>
+        <li>RPD 1 Rangkap</li>
+        <li>RPD perorangan 1 Rangkap</li>
+        <li>SPTJM 1 rangkap tanpa materai</li>
+        <li>Surat permohonan pencairan 1 Rangkap</li>
+        <li>Kwitansi kertas biasa tanpa materai 1 Rangkap</li>
+        <li>Buku rekening nagari 1 Rangkap</li>
+      </ol>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2025 Kendali Pemeriksaan • Dibuat dengan ❤️ untuk mempermudah administrasi
+  </footer>
+
+  <!-- Tombol Back to Top -->
+  <button id="backToTop" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆️</button>
+
+  <script>
+    // Tombol Back to Top
+    const backToTop = document.getElementById("backToTop");
+    window.onscroll = function() {
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        backToTop.style.display = "block";
+      } else {
+        backToTop.style.display = "none";
+      }
+    };
+
+    // Dark Mode Toggle
+    const toggleBtn = document.getElementById("darkModeToggle");
+    toggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      if (document.body.classList.contains("dark")) {
+        toggleBtn.textContent = "☀️ Light";
+      } else {
+        toggleBtn.textContent = "🌙 Dark";
+      }
+    });
+  </script>
+</body>
+</html>

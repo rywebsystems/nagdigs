@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOGIN</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #0a2a5a url("https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=1950&q=80") center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .login-box {
+    background: rgba(10,42,90,0.9);
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    color: #fff;
+    text-align: center;
+  }
+  .login-box h2 { margin-bottom: 20px; color: #1d4ed8; }
+  .login-box input {
+    width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px;
+    border: 2px solid #1d4ed8; outline: none; font-size: 16px;
+  }
+  .login-box input:focus { border-color: #2563eb; }
+  .login-box .login-btn {
+    display: inline-block;
+    width: 100%; padding: 12px; margin-top: 10px;
+    background: #1d4ed8; border-radius: 5px; color: white;
+    text-decoration: none; font-size: 16px; font-weight: bold;
+  }
+  .login-box .login-btn:hover { background: #2563eb; }
+  .forgot-password { display: block; margin-top: 10px; color: #1d4ed8; text-decoration: none; }
+  .forgot-password:hover { text-decoration: underline; color: #2563eb; }
+</style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>LOGIN</h2>
+    <input type="text" placeholder="Username" id="username">
+    <input type="password" placeholder="Password" id="password">
+
+    <!-- Tombol login langsung buka link di tab baru -->
+    <a id="loginBtn" class="login-btn" href="https://sites.google.com/view/nagdigs2/masuk/input-berita" target="_blank">
+      Masuk
+    </a>
+
+    <a href="#" class="forgot-password" onclick="forgotPassword()">Lupa Password?</a>
+  </div>
+
+<script>
+function forgotPassword() {
+  const phone = "6285263628310";
+  const message = encodeURIComponent("Halo Admin, saya lupa password. Mohon bantu reset.\n- Nama Nagari:\n- Nama:\n- Nomor WA:");
+  window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
+}
+</script>
+</body>
+</html>
