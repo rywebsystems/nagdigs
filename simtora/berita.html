@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Berita Nagari</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #f5f7fa;
+      color: #111;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #0f172a;
+    }
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+    .tab {
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: #e5e7eb;
+      color: #111;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all .2s;
+    }
+    .tab.active {
+      background: #0f6cff;
+      color: #fff;
+    }
+    #feed {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+    @media (min-width: 600px) {
+      #feed { grid-template-columns: repeat(4, 1fr); }
+    }
+    .news-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .news-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+    .news-img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+    }
+    .news-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 10px;
+      color: #0f172a;
+      line-height: 1.4;
+    }
+    .news-meta {
+      font-size: 12px;
+      color: #6b7280;
+      margin: 0 10px 10px;
+    }
+    .read-more {
+      display: block;
+      margin: 0 10px 10px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #0f6cff;
+      cursor: pointer;
+      transition: color .2s;
+    }
+    .read-more:hover { color: #084cd2; }
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: #6b7280;
+      font-size: 15px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    }
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      overflow-y: auto;
+      z-index: 9999;
+      animation: fadeIn .3s;
+      padding: 20px;
+    }
+    .modal {
+      width: 100%;
+      max-width: 900px;
+      padding: 20px;
+    }
+    .modal h2 {
+      margin-top: 0;
+      font-size: 26px;
+      color: #0f172a;
+    }
+    .modal img {
+      width: 100%;
+      border-radius: 12px;
+      margin: 15px 0;
+    }
+    .modal p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      text-align: justify;
+    }
+    .modal .meta {
+      font-size: 13px;
+      color: #555;
+      margin-top: 10px;
+      font-style: italic;
+    }
+    .modal button {
+      margin-top: 20px;
+      padding: 10px 18px;
+      background: #0f6cff;
+      border: none;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .modal button:hover { background: #084cd2; }
+    @keyframes fadeIn {from{opacity:0}to{opacity:1}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Berita Nagari</h1>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('latest')">Terbaru</div>
+      <div class="tab" onclick="switchTab('popular')">Populer</div>
+    </div>
+    <div id="feed"><div class="empty">Memuat berita...</div></div>
+  </div>
+
+  <script>
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vST525cfDLJ_kvsLSLp7o9bSP1DRhmHdPUY5YfAID75rmj7ASR8IJ8CsIZ1Gm9wnCXGAcV51dlfv3jj/pub?gid=0&single=true&output=csv"; 
+
+    let newsData = [];
+
+    function parseCSV(text){
+      const rows=[], header=[];
+      let cur='', row=[], inQuotes=false;
+      for(let i=0;i<text.length;i++){
+        const c=text[i];
+        if(c=='"'&&text[i+1]=='"'){cur+='"';i++;}
+        else if(c=='"'){inQuotes=!inQuotes;}
+        else if(c==','&&!inQuotes){row.push(cur);cur='';}
+        else if((c=='\n'||c=='\r')&&!inQuotes){
+          if(cur||row.length)row.push(cur);
+          if(row.length)rows.push(row);
+          cur='';row=[];
+        } else cur+=c;
+      }
+      if(cur||row.length){row.push(cur);rows.push(row);}
+      const headers=rows[0].map(h=>h.trim());
+      return rows.slice(1).map(r=>{
+        let o={};headers.forEach((h,i)=>o[h]=r[i]?r[i].trim():"");return o;
+      }).filter(r=>Object.values(r).some(v=>v!==""));
+    }
+
+    function getField(obj,keywords){
+      const keys=Object.keys(obj);
+      for(let k of keys){
+        const low=k.toLowerCase();
+        if(keywords.some(w=>low.includes(w))) return obj[k];
+      }
+      return "";
+    }
+
+    function renderNews(data,mode="latest"){
+      const feed=document.getElementById("feed");
+      if(!data.length){
+        feed.innerHTML='<div class="empty">Belum ada berita.</div>';
+        return;
+      }
+      if(mode==="latest"){
+        data.sort((a,b)=>new Date(getField(b,["tanggal"]))-new Date(getField(a,["tanggal"])));
+      }
+      feed.innerHTML="";
+      data.slice(0,4).forEach(item=>{
+        const title=getField(item,["judul"]);
+        const img1=getField(item,["utama"]);
+        const date=getField(item,["tanggal"]);
+
+        const card=document.createElement("div");
+        card.className="news-card";
+
+        if(img1) card.appendChild(Object.assign(new Image(),{src:img1,className:"news-img"}));
+        if(title){
+          const h2=document.createElement("h2");
+          h2.className="news-title";
+          h2.textContent=title;
+          card.appendChild(h2);
+        }
+        const meta=document.createElement("div");
+        meta.className="news-meta";
+        if(date) meta.textContent=`📅 ${date}`;
+        card.appendChild(meta);
+
+        const more=document.createElement("span");
+        more.className="read-more";
+        more.textContent="Baca Selengkapnya";
+        more.onclick=()=>openModal(item);
+        card.appendChild(more);
+
+        feed.appendChild(card);
+      });
+    }
+
+    function openModal(item){
+      const title=getField(item,["judul"]);
+      const img1=getField(item,["utama"]);
+      const para1=getField(item,["satu","dua"]);
+      const img2=getField(item,["kedua"]);
+      const para2=getField(item,["tiga","lima"]);
+      const operator=getField(item,["operator"]);
+      const date=getField(item,["tanggal"]);
+
+      const overlay=document.createElement("div");overlay.className="modal-overlay";
+      const modal=document.createElement("div");modal.className="modal";
+      modal.innerHTML=`<h2>${title}</h2>`;
+      if(img1) modal.innerHTML+=`<img src="${img1}" alt="gambar">`;
+      if(para1) modal.innerHTML+=`<p>${para1}</p>`;
+      if(img2) modal.innerHTML+=`<img src="${img2}" alt="gambar">`;
+      if(para2) modal.innerHTML+=`<p>${para2}</p>`;
+      if(operator) modal.innerHTML+=`<div class="meta">Dikirim oleh: ${operator}</div>`;
+      if(date) modal.innerHTML+=`<div class="meta">📅 Dirilis: ${date}</div>`;
+
+      const btn=document.createElement("button");
+      btn.textContent="Tutup";
+      btn.onclick=()=>document.body.removeChild(overlay);
+      modal.appendChild(btn);
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+    }
+
+    async function loadNews(){
+      try{
+        const res=await fetch(CSV_URL);
+        const txt=await res.text();
+        newsData=parseCSV(txt);
+        renderNews(newsData,"latest");
+      }catch(err){
+        document.getElementById("feed").innerHTML='<div class="empty">Gagal memuat berita<br>'+err+'</div>';
+      }
+    }
+
+    function switchTab(mode){
+      document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+      if(mode==="latest") document.querySelectorAll(".tab")[0].classList.add("active");
+      else document.querySelectorAll(".tab")[1].classList.add("active");
+      renderNews(newsData,mode);
+    }
+
+    loadNews();
+  </script>
+</body>
+</html>
